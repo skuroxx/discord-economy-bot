@@ -7,7 +7,7 @@ import os
 from dotenv import load_dotenv
 
 # ===== LOAD ENV =====
-load_dotenv(dotenv_path=".env")
+load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
 # ===== CONFIG =====
