@@ -2,403 +2,193 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dino Dash</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        canvas { touch-action: none; }
-        body { -webkit-tap-highlight-color: transparent; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Static Media Toolkit</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 </head>
-<body id="game-body" class="bg-slate-900 text-slate-100 min-h-screen w-screen flex flex-col items-center justify-center p-3 sm:p-6 font-sans transition-colors duration-1000 overflow-hidden select-none">
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
 
-    <script>
-        let audioCtx = null;
-        function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-        
-        function playJumpSound() {
-            try { initAudio(); const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-            osc.type = 'square'; osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.15);
-            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.15); } catch(e){}
-        }
+    <header class="bg-gray-800 border-b border-gray-700 py-6 text-center">
+        <h1 class="text-3xl font-bold text-teal-400">Client-Side Media Toolkit</h1>
+        <p class="text-gray-400 text-sm mt-1">100% Secure. Files never leave your browser.</p>
+    </header>
 
-        function playExplosionSound() {
-            try { initAudio(); const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-            osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 0.4);
-            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.4); } catch(e){}
-        }
-    </script>
+    <main class="max-w-5xl mx-auto p-6 space-y-12">
 
-    <div class="w-full max-w-2xl bg-slate-950/40 border border-slate-800/80 p-4 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 relative backdrop-blur-md">
-        
-        <div class="flex items-center justify-between border-b border-slate-800/60 pb-3 font-mono text-xs text-slate-400">
-            <div class="flex items-center gap-3">
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-gamepad text-cyan-400"></i> DINO_EVOLVED</span>
-                <span id="difficulty-badge" class="px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-900/50 text-emerald-400 font-bold">NORMAL</span>
-            </div>
-            <div class="flex gap-4 text-sm font-bold">
-                <div>HI <span id="hi-score" class="text-slate-200">00000</span></div>
-                <div>SCORE <span id="current-score" class="text-cyan-400">00000</span></div>
-            </div>
-        </div>
-
-        <div class="w-full bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden relative shadow-inner">
-            <canvas id="gameCanvas" width="800" height="300" class="w-full h-auto block"></canvas>
-            
-            <div id="start-overlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4 transition-all duration-300">
-                <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl animate-bounce mb-3 shadow-lg shadow-cyan-950/50">
-                    <i class="fa-solid fa-play"></i>
+        <section class="bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-700">
+            <h2 class="text-xl font-semibold text-teal-300 mb-4 flex items-center gap-2">
+                📷 1. AI Photo Background Remover
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col justify-center items-center border-2 border-dashed border-gray-600 rounded-lg p-6 bg-gray-850">
+                    <input type="file" id="imageInput" accept="image/*" class="hidden">
+                    <label for="imageInput" class="cursor-pointer bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded font-medium transition">
+                        Upload Image
+                    </label>
+                    <p class="text-xs text-gray-400 mt-2">Supports PNG, JPG, WebP</p>
+                    <div id="imgStatus" class="text-sm text-yellow-400 mt-3 hidden">Processing AI Model locally... (Takes a few seconds)</div>
                 </div>
-                <h2 class="text-lg font-black text-white tracking-tight">TERRAIN HAZARD ENGAGED</h2>
-                <p class="text-xs text-slate-400 max-w-xs mt-1 mb-4 leading-relaxed">Avoid obstacles. Watch out for rockets crashing down from the sky vectors.</p>
-                <button onclick="startGame()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl shadow-lg transition-transform active:scale-95">
-                    Launch Run
-                </button>
-            </div>
-
-            <div id="death-overlay" class="absolute inset-0 bg-rose-950/80 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4 hidden transition-all duration-300">
-                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 text-lg mb-2">
-                    <i class="fa-solid fa-skull-crossbones"></i>
+                <div class="flex flex-col items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[200px]">
+                    <span id="imgPlaceholder" class="text-gray-500 text-sm">Result Preview</span>
+                    <img id="imageResult" class="max-h-64 rounded hidden" alt="Background Removed">
+                    <a id="downloadImgBtn" class="mt-4 hidden bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded text-sm font-medium transition">Download PNG</a>
                 </div>
-                <h2 class="text-lg font-black text-rose-400 tracking-tight">CRASH TERMINATED</h2>
-                <p class="text-xs text-slate-300 mt-0.5 mb-4">Your score: <span id="final-score" class="font-bold text-white font-mono">0</span></p>
-                <button onclick="startGame()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl transition shadow-md active:scale-95 flex items-center gap-1.5">
-                    <i class="fa-solid fa-arrow-rotate-left"></i> Restart Run
-                </button>
             </div>
-        </div>
+        </section>
 
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-2.5 text-xs text-slate-500 border-t border-slate-900 pt-3">
-            <div class="flex gap-4">
-                <span><kbd class="bg-slate-900 border border-slate-800 text-slate-300 px-1.5 py-0.5 rounded text-[10px] font-mono">SPACE</kbd> / <kbd class="bg-slate-900 border border-slate-800 text-slate-300 px-1.5 py-0.5 rounded text-[10px] font-mono">↑</kbd> Jump</span>
-                <span><kbd class="bg-slate-900 border border-slate-800 text-slate-300 px-1.5 py-0.5 rounded text-[10px] font-mono">↓</kbd> Duck / Fall Fast</span>
+        <section class="bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-700">
+            <h2 class="text-xl font-semibold text-teal-300 mb-4">
+                📄 2. PDF Utilities (Page Remover/Exporter)
+            </h2>
+            <div class="space-y-4">
+                <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center bg-gray-850">
+                    <input type="file" id="pdfInput" accept=".pdf" class="hidden">
+                    <label for="pdfInput" class="cursor-pointer bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded font-medium transition">
+                        Upload PDF Document
+                    </label>
+                </div>
+                <div id="pdfActions" class="hidden bg-gray-900 p-4 rounded-lg space-y-4">
+                    <p class="text-sm text-gray-300" id="pdfInfo"></p>
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <label class="text-sm text-gray-400">Remove Page Number:</label>
+                        <input type="number" id="removePageNum" min="1" value="1" class="bg-gray-700 text-white px-3 py-1 rounded w-20 border border-gray-600">
+                        <button id="processPdfBtn" class="bg-red-600 hover:bg-red-500 text-white px-4 py-1.5 rounded text-sm font-medium transition">
+                            Delete Page & Download
+                        </button>
+                    </div>
+                </div>
             </div>
-            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600"><i class="fa-solid fa-mobile-screen-button"></i> Mobile: Tap top half to Jump / bottom half to Duck</span>
-        </div>
-    </div>
+        </section>
 
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+        <section class="bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-700">
+            <h2 class="text-xl font-semibold text-teal-300 mb-4">
+                🎬 3. Universal Video Player
+            </h2>
+            <div class="space-y-6">
+                <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center bg-gray-850">
+                    <input type="file" id="videoInput" accept="video/*" class="hidden">
+                    <label for="videoInput" class="cursor-pointer bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded font-medium transition">
+                        Select Video File
+                    </label>
+                    <p class="text-xs text-gray-400 mt-2">Plays browser-native files instantly.</p>
+                </div>
+                <div class="flex justify-center bg-gray-900 p-4 rounded-lg hidden" id="videoContainer">
+                    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="360">
+                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video</p>
+                    </video>
+                </div>
+            </div>
+        </section>
 
-        // Game Configuration Engine Variables
-        let isGameRunning = false;
-        let score = 0;
-        let highscore = localStorage.getItem("dino_hi_score") ? parseInt(localStorage.getItem("dino_hi_score")) : 0;
-        document.getElementById("hi-score").innerText = String(highscore).padStart(5, '0');
+    </main>
 
-        let gameSpeed = 6;
-        let frameCount = 0;
-        let isNightMode = false;
+    <script type="module">
+        // Import local ES Module for background removal directly via CDN
+        import imglyRemoveBackground from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm';
 
-        // Player Entity Structure Mapping
-        const dino = {
-            x: 50, y: 230, width: 44, height: 48,
-            baseHeight: 48, duckHeight: 26,
-            velocityY: 0, gravity: 0.6,
-            isJumping: false, isDucking: false,
-            jumpForce: -12.5,
-            draw() {
-                ctx.save();
-                ctx.fillStyle = isNightMode ? "#22d3ee" : "#0f172a"; // Cyan accent in night mode, deep slate in day
+        let uploadedPdfBytes = null;
+
+        // --- 1. IMAGE LOGIC (Background Removal) ---
+        document.getElementById('imageInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const status = document.getElementById('imgStatus');
+            const placeholder = document.getElementById('imgPlaceholder');
+            const resultImg = document.getElementById('imageResult');
+            const dlBtn = document.getElementById('downloadImgBtn');
+
+            status.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            resultImg.classList.add('hidden');
+            dlBtn.classList.add('hidden');
+
+            try {
+                // Runs AI logic right inside the browser engine using WASM
+                const blob = await imglyRemoveBackground(file);
+                const resultUrl = URL.createObjectURL(blob);
                 
-                let renderY = this.y;
-                let renderH = this.height;
-
-                // Adjust bounding collision boxes dynamically if ducking state triggers active
-                if (this.isDucking && !this.isJumping) {
-                    renderH = this.duckHeight;
-                    renderY = 230 + (this.baseHeight - this.duckHeight);
-                }
-
-                // Render stylized geometric dinosaur character asset layout block
-                ctx.beginPath();
-                ctx.roundRect(this.x, renderY, this.width, renderH, [4, 4, 2, 2]);
-                ctx.fill();
-
-                // Eyes visual rendering adjustments
-                ctx.fillStyle = isNightMode ? "#0f172a" : "#ffffff";
-                ctx.fillRect(this.x + this.width - 12, renderY + 8, 4, 4);
-                ctx.restore();
-            },
-            update() {
-                this.y += this.velocityY;
-                if (this.y < 230) {
-                    this.velocityY += this.gravity;
-                    this.isJumping = true;
-                } else {
-                    this.y = 230;
-                    this.velocityY = 0;
-                    this.isJumping = false;
-                }
+                resultImg.src = resultUrl;
+                resultImg.classList.remove('hidden');
+                
+                dlBtn.href = resultUrl;
+                dlBtn.download = `no-bg-${file.name.split('.')[0]}.png`;
+                dlBtn.classList.remove('hidden');
+            } catch (error) {
+                console.error(error);
+                alert("Failed to process image background locally.");
+            } finally {
+                status.classList.add('hidden');
             }
-        };
+        });
 
-        // Arrays managing passive system threats vectors
-        let structuresList = [];
-        let rocketsList = [];
+        // --- 2. PDF LOGIC (Modify structures natively) ---
+        document.getElementById('pdfInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
-        // Obstacles Generator System Configuration
-        class StructureObstacle {
-            constructor() {
-                this.x = canvas.width + 20;
-                this.width = 16 + Math.floor(Math.random() * 24);
-                this.height = 30 + Math.floor(Math.random() * 25);
-                this.y = 278 - this.height;
-            }
-            draw() {
-                ctx.save();
-                ctx.fillStyle = isNightMode ? "#f43f5e" : "#475569"; // Rose red accents vs slate ground blocks
-                ctx.beginPath();
-                ctx.roundRect(this.x, this.y, this.width, this.height, 4);
-                ctx.fill();
-                ctx.restore();
-            }
-            update() { this.x -= gameSpeed; }
-        }
+            const arrayBuffer = await file.arrayBuffer();
+            uploadedPdfBytes = new Uint8Array(arrayBuffer);
 
-        // HELL HAZARD MECHANIC: SKY ROCKET PROJECTILE VECTOR INTERRUPTS
-        class SkyRocket {
-            constructor() {
-                this.x = 200 + Math.random() * (canvas.width - 100);
-                this.y = -40;
-                this.width = 24;
-                this.height = 12;
-                this.speedY = 4 + Math.random() * 3;
-                this.speedX = - (4 + Math.random() * 3);
-                this.angle = Math.atan2(this.speedY, this.speedX);
-                this.isExploded = false;
-            }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
+            // Load properties using pdf-lib
+            const pdfDoc = await PDFLib.PDFDocument.load(uploadedPdfBytes);
+            const pageCount = pdfDoc.getPageCount();
 
-                // Rocket Body Frame Layout
-                ctx.fillStyle = "#fb923c"; // Vivid orange core trail
-                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+            document.getElementById('pdfInfo').innerText = `Loaded: "${file.name}" containing ${pageCount} pages.`;
+            document.getElementById('removePageNum').max = pageCount;
+            document.getElementById('pdfActions').classList.remove('hidden');
+        });
 
-                // Rocket Nose Cone Tip Vector
-                ctx.fillStyle = "#ef4444";
-                ctx.beginPath();
-                ctx.moveTo(this.width/2, -this.height/2);
-                ctx.lineTo(this.width/2 + 8, 0);
-                ctx.lineTo(this.width/2, this.height/2);
-                ctx.fill();
+        document.getElementById('processPdfBtn').addEventListener('click', async () => {
+            if (!uploadedPdfBytes) return;
 
-                // Thrust Particle Fire Layout Tail
-                ctx.fillStyle = "#facc15";
-                ctx.fillRect(-this.width/2 - 6, -3, 6, 6);
-                ctx.restore();
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-            }
-        }
-
-        // --- MASTER GAME CONTROLLER FLOW LOOPS ---
-        function startGame() {
-            initAudio();
-            isGameRunning = true;
-            score = 0;
-            gameSpeed = 6;
-            frameCount = 0;
-            isNightMode = false;
-            structuresList = [];
-            rocketsList = [];
-            dino.y = 230;
-            dino.velocityY = 0;
-
-            document.getElementById("start-overlay").classList.add("hidden");
-            document.getElementById("death-overlay").classList.add("hidden");
-            document.getElementById("game-body").className = "bg-slate-900 text-slate-100 min-h-screen w-screen flex flex-col items-center justify-center p-3 sm:p-6 font-sans transition-colors duration-1000 overflow-hidden select-none";
+            const pageIndexToRemove = parseInt(document.getElementById('removePageNum').value) - 1;
             
-            animateFrameEngineLoop();
-        }
+            try {
+                const pdfDoc = await PDFLib.PDFDocument.load(uploadedPdfBytes);
+                const totalPages = pdfDoc.getPageCount();
 
-        function triggerDeathTermination() {
-            isGameRunning = false;
-            playExplosionSound();
-            if (score > highscore) {
-                highscore = score;
-                localStorage.setItem("dino_hi_score", highscore);
-                document.getElementById("hi-score").innerText = String(highscore).padStart(5, '0');
-            }
-            document.getElementById("final-score").innerText = score;
-            document.getElementById("death-overlay").classList.remove("hidden");
-        }
-
-        function animateFrameEngineLoop() {
-            if (!isGameRunning) return;
-
-            frameCount++;
-            score++;
-            
-            // HUD Dashboard updates
-            document.getElementById("current-score").innerText = String(score).padStart(5, '0');
-
-            // Adaptive Progression Sizing Curves
-            if (score % 400 === 0 && gameSpeed < 16) {
-                gameSpeed += 0.8;
-            }
-
-            // Adjust difficulty visualization updates based on active scoring zones
-            const diffBadge = document.getElementById("difficulty-badge");
-            if (score > 1500) {
-                diffBadge.innerText = "HELL FIRE";
-                diffBadge.className = "px-2 py-0.5 rounded-md bg-rose-950/60 border border-rose-900/50 text-rose-400 font-bold animate-pulse";
-            } else if (score > 700) {
-                diffBadge.innerText = "EXPERT";
-                diffBadge.className = "px-2 py-0.5 rounded-md bg-amber-950/60 border border-amber-900/50 text-amber-400 font-bold";
-            } else {
-                diffBadge.innerText = "NORMAL";
-                diffBadge.className = "px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-900/50 text-emerald-400 font-bold";
-            }
-
-            // Day-Night Environmental Phase Changes
-            if (score % 600 === 0) {
-                isNightMode = !isNightMode;
-                document.getElementById("game-body").className = isNightMode 
-                    ? "bg-black text-cyan-400 min-h-screen w-screen flex flex-col items-center justify-center p-3 sm:p-6 font-sans transition-colors duration-1000 overflow-hidden select-none"
-                    : "bg-slate-900 text-slate-100 min-h-screen w-screen flex flex-col items-center justify-center p-3 sm:p-6 font-sans transition-colors duration-1000 overflow-hidden select-none";
-            }
-
-            // Clear Screen Canvas Context Layer
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw Environmental Background Sky Details
-            ctx.fillStyle = isNightMode ? "rgba(34, 211, 238, 0.03)" : "rgba(255,255,255,0.02)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Draw Baseline Floor Track Channel
-            ctx.strokeStyle = isNightMode ? "#1e293b" : "#334155";
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(0, 278);
-            ctx.lineTo(canvas.width, 278);
-            ctx.stroke();
-
-            // Spawn Control Track Mapping: Ground Obstacles
-            if (frameCount % Math.max(50, 120 - Math.floor(gameSpeed * 4)) === 0) {
-                if(Math.random() > 0.3) structuresList.push(new StructureObstacle());
-            }
-
-            // Spawn Control Track Mapping: CRASHING SKY PROJECTILES HAZARDS
-            let rocketSpawnInterval = score > 1500 ? 90 : (score > 700 ? 160 : 240);
-            if (frameCount % rocketSpawnInterval === 0 && score > 150) {
-                rocketsList.push(new SkyRocket());
-            }
-
-            // Process Ground Elements Movements & Collision Checking Matrices
-            for (let i = structuresList.length - 1; i >= 0; i--) {
-                structuresList[i].update();
-                structuresList[i].draw();
-
-                // Structural collision calculation layer
-                let s = structuresList[i];
-                let dY = dino.isDucking && !dino.isJumping ? 230 + (dino.baseHeight - dino.duckHeight) : dino.y;
-                let dH = dino.isDucking && !dino.isJumping ? dino.duckHeight : dino.height;
-
-                if (dino.x < s.x + s.width && dino.x + dino.width > s.x &&
-                    dY < s.y + s.height && dY + dH > s.y) {
-                    triggerDeathTermination();
+                if (pageIndexToRemove < 0 || pageIndexToRemove >= totalPages) {
+                    alert("Invalid page number specified.");
                     return;
                 }
 
-                if (structuresList[i].x + structuresList[i].width < 0) {
-                    structuresList.splice(i, 1);
-                }
-            }
+                // Modify document structures directly 
+                pdfDoc.removePage(pageIndexToRemove);
+                
+                const modifiedPdfBytes = await pdfDoc.save();
+                const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+                const docUrl = URL.createObjectURL(blob);
 
-            // Process Skydrop Rocket Physics Vectors & Direct Point Bounding Box Checkers
-            for (let j = rocketsList.length - 1; j >= 0; j--) {
-                rocketsList[j].update();
-                rocketsList[j].draw();
-
-                let r = rocketsList[j];
-                let dY = dino.isDucking && !dino.isJumping ? 230 + (dino.baseHeight - dino.duckHeight) : dino.y;
-                let dH = dino.isDucking && !dino.isJumping ? dino.duckHeight : dino.height;
-
-                // Test directional box alignments matching intersection matrices bounding parameters
-                if (r.x > dino.x && r.x < dino.x + dino.width &&
-                    r.y > dY && r.y < dY + dH) {
-                    triggerDeathTermination();
-                    return;
-                }
-
-                // Clean memory array instances once element escapes bottom screen edge boundaries
-                if (r.y > canvas.height + 20 || r.x < -20) {
-                    rocketsList.splice(j, 1);
-                }
-            }
-
-            // Refresh Player Node Properties
-            dino.update();
-            dino.draw();
-
-            requestAnimationFrame(animateFrameEngineLoop);
-        }
-
-        // --- UNIFIED USER EVENT SYSTEM DISPATCHERS ---
-        function executeActionJump() {
-            if (!dino.isJumping && isGameRunning) {
-                dino.velocityY = dino.jumpForce;
-                playJumpSound();
-            }
-        }
-
-        function executeActionDuck(state) {
-            dino.isDucking = state;
-            // Heavy Drop Force Patch: Instantly force player element back down if duck triggers mid-air
-            if (state && dino.isJumping) {
-                dino.velocityY = 8.5; // Fast descent acceleration
-            }
-        }
-
-        // Keyboard Action Listeners Mapping
-        window.addEventListener("keydown", (e) => {
-            if (e.code === "Space" || e.code === "ArrowUp") { e.preventDefault(); executeActionJump(); }
-            if (e.code === "ArrowDown") { e.preventDefault(); executeActionDuck(true); }
-        });
-
-        window.addEventListener("keyup", (e) => {
-            if (e.code === "ArrowDown") { executeActionDuck(false); }
-        });
-
-        // Smart Adaptive Mobile Touch Screen Split Interfaces Gestures Mapping
-        window.addEventListener("touchstart", (e) => {
-            const touchY = e.touches[0].clientY;
-            const screenHeight = window.innerHeight;
-            
-            // If touch event triggers on the upper half space execution field, fire Jump logic
-            if (touchY < screenHeight / 2) {
-                executeActionJump();
-            } else {
-                executeActionDuck(true);
+                // Instantly download resulting document
+                const a = document.createElement('a');
+                a.href = docUrl;
+                a.download = "edited_document.pdf";
+                a.click();
+            } catch (err) {
+                alert("Error modifying PDF structural layers.");
+                console.error(err);
             }
         });
 
-        window.addEventListener("touchend", () => {
-            executeActionDuck(false); // Clean track default state resets
+        // --- 3. VIDEO LOGIC (HTML5 Video Element Binding) ---
+        const player = videojs('my-video');
+
+        document.getElementById('videoInput').addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (!file) return;
+
+            const fileURL = URL.createObjectURL(file);
+            document.getElementById('videoContainer').classList.remove('hidden');
+
+            // Dynamically load the client's file directly into VideoJS source wrapper
+            player.src({ type: file.type, src: fileURL });
+            player.ready(() => {
+                player.play();
+            });
         });
     </script>
 </body>
